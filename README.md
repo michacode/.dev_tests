@@ -1,2 +1,3 @@
-# .dev_tests
-tests
+# Test og udvikling
+
+Forskellige udkast til videre udvikling.
