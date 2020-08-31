@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+udkig(){
+i=0 
+nmcli -f SSID,BARS,SIGNAL,ACTIVE -m multiline d w | { while read line; do 
+    for ssid in $line; do 
+      if [[ "$ssid" =~ "SSID:"* ]]; then
+        ssid=$(echo $line | sed 's/SSID: //g')
+#        echo $ssid
+        i=$((i+1))
+        echo "$i: $ssid"
+        array+=("${ssid}")
+      fi
+    done
+    echo $line
+  done
+  echo
+  read -p "VÆLG FORBINDELSE (1-$i) " input </dev/tty
+#echo ${array[((input-1))]}
+ssid=${array[((input-1))]}
+#echo "VALGTE: $ssid"
+read -p "ADGANGSKODE TIL $ssid " wpa </dev/tty
+nmcli d wifi c "$ssid" password "$wpa"
+}
+}
+udkig
