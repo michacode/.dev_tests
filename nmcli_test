@@ -3,15 +3,13 @@
 udkig(){
 i=0 
 nmcli -f SSID,BARS,SIGNAL,ACTIVE -m multiline d w | { while read line; do 
-    for ssid in $line; do 
-      if [[ "$ssid" =~ "SSID:"* ]]; then
-        ssid=$(echo $line | sed 's/SSID: //g')
+      if [[ "$line" =~ "SSID:"* ]]; then
+        ssid=$(echo $line | sed 's/SSID: *//g')
 #        echo $ssid
-        i=$((i+1))
+        ((i++))
         echo "$i: $ssid"
         array+=("${ssid}")
       fi
-    done
     echo $line
   done
   echo
